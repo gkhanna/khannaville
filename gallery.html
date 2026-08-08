@@ -53,185 +53,86 @@
 
     <script src="script.js"></script>
     <script>
-        // Gallery data structure mapping collection IDs to their paths
-        const galleryData = {
-            'Beach': {
-                title: 'Beach',
-                description: 'Coastal adventures and sandy shores',
-                path: 'Beach-Thumbnails',
-                count: 0 // Will be determined dynamically
-            },
-            'Fall': {
-                title: 'Fall Leaves',
-                description: 'Autumn colors across New England',
-                path: 'Fall-Thumbnails',
-                count: 0
-            },
-            'CA': {
-                title: 'California',
-                description: 'West Coast wanderings',
-                path: 'CA-Thumbnails',
-                count: 0
-            },
-            'CapeCod': {
-                title: 'Cape Cod',
-                description: 'New England coastal charm',
-                path: 'CapeCod-Thumbnails',
-                count: 0
-            },
-            'MtWash': {
-                title: 'Mount Washington',
-                description: 'Mountain peaks and hiking trails',
-                path: 'MtWash-Thumbnails',
-                count: 0
-            },
-            'Maine': {
-                title: 'Maine',
-                description: 'Forests and wilderness',
-                path: 'Maine/Thumbnails',
-                count: 0
-            },
-            'Germany': {
-                title: 'Germany',
-                description: 'European castles and countryside',
-                path: 'Germany-Thumbnails',
-                count: 0
-            },
-            'Gnome': {
-                title: 'Gnome Garden',
-                description: 'Quirky garden adventures',
-                path: 'Gnome-Thumbnails',
-                count: 0
-            },
-            'MoS': {
-                title: 'Museum of Science',
-                description: 'Boston science museum visit',
-                path: 'MoS-Thumbnails',
-                count: 0
-            },
-            'Nostalgia': {
-                title: 'Nostalgia',
-                description: 'Throwback memories',
-                path: 'Nostalgia-Thumbnails',
-                count: 0
-            },
-            'Rach6th': {
-                title: "Rachel's 6th Birthday",
-                description: 'Birthday celebration',
-                path: 'Rach6th-Thumbnails',
-                count: 0
-            },
-            'VacNY': {
-                title: 'New York Vacation',
-                description: 'Big Apple adventures',
-                path: 'VacNY/Thumbnails',
-                count: 0
-            },
-            'Winter08': {
-                title: 'Winter Wonderland',
-                description: 'Snowy adventures and holiday fun',
-                path: 'Winter08/Thumbnails',
-                count: 0
-            },
-            'Fall06': {
-                title: 'Fall 2006',
-                description: 'Autumn 2006 highlights',
-                path: 'Fall06-Thumbnails',
-                count: 0
-            },
-            'Bug': {
-                title: 'Bug Collection',
-                description: 'Creepy crawlies and insects',
-                path: 'Bug/Thumbnails',
-                count: 0
-            },
-            'Fall07': {
-                title: 'Fall 2007',
-                description: 'Autumn 2007 highlights',
-                path: 'Fall07/Thumbnails',
-                count: 0
-            },
-            'Fall08': {
-                title: 'Fall 2008',
-                description: 'Autumn 2008 highlights',
-                path: 'Fall08/Thumbnails',
-                count: 0
-            }
+        // Gallery configuration with correct paths
+        const galleryConfig = {
+            'Beach': { title: 'Beach', path: 'Beach-Thumbnails' },
+            'Fall': { title: 'Fall Leaves', path: 'Fall-Thumbnails' },
+            'CA': { title: 'California', path: 'CA-Thumbnails' },
+            'CapeCod': { title: 'Cape Cod', path: 'CapeCod-Thumbnails' },
+            'MtWash': { title: 'Mount Washington', path: 'MtWash-Thumbnails' },
+            'Maine': { title: 'Maine', path: 'Maine-Thumbnails' },
+            'Germany': { title: 'Germany', path: 'Germany-Thumbnails' },
+            'Gnome': { title: 'Gnome Garden', path: 'Gnome-Thumbnails' },
+            'MoS': { title: 'Museum of Science', path: 'MoS-Thumbnails' },
+            'Nostalgia': { title: 'Nostalgia', path: 'Nostalgia-Thumbnails' },
+            'Rach6th': { title: "Rachel's 6th Birthday", path: 'Rach6th-Thumbnails' },
+            'VacNY': { title: 'New York Vacation', path: 'VacNY-Thumbnails' },
+            'Winter08': { title: 'Winter Wonderland', path: 'Winter08-Thumbnails' },
+            'Fall06': { title: 'Fall 2006', path: 'Fall06-Thumbnails' },
+            'Bug': { title: 'Bug Collection', path: 'Bug-Thumbnails' }
         };
 
-        // Get gallery ID from URL
         function getGalleryId() {
             const params = new URLSearchParams(window.location.search);
             return params.get('id') || 'Beach';
         }
 
-        // Load gallery images
-        async function loadGallery() {
+        function loadGallery() {
             const galleryId = getGalleryId();
-            const gallery = galleryData[galleryId];
+            const gallery = galleryConfig[galleryId];
 
             if (!gallery) {
                 document.getElementById('gallery-title').textContent = 'Gallery not found';
                 return;
             }
 
-            // Update page title and headers
+            // Update titles
             document.title = gallery.title + ' - KhannaVille';
             document.getElementById('gallery-title').textContent = gallery.title;
             document.getElementById('gallery-title-breadcrumb').textContent = gallery.title;
 
-            // Load images dynamically
+            // Load images
             const imageGrid = document.getElementById('image-grid');
             imageGrid.innerHTML = '';
 
-            // Try to load numbered images (0.jpg, 1.jpg, etc.)
-            // We'll try up to 100 images per gallery
             let loadedCount = 0;
-            for (let i = 0; i < 100; i++) {
+
+            // Try loading images 0-200
+            for (let i = 0; i < 200; i++) {
                 const imgPath = `media/galleries/${gallery.path}/${i}.jpg`;
-                const img = new Image();
-
-                img.onload = function() {
-                    const item = document.createElement('div');
-                    item.className = 'image-item';
-                    const imgEl = document.createElement('img');
-                    imgEl.src = imgPath;
-                    imgEl.alt = `${gallery.title} - Image ${i}`;
-                    item.appendChild(imgEl);
-                    imageGrid.appendChild(item);
-                    
-                    // Re-initialize lightbox with new images
-                    document.dispatchEvent(new Event('DOMContentLoaded'));
-                };
-
-                img.onerror = function() {
-                    // Stop trying after a few misses
-                    if (loadedCount === 0 && i > 50) {
-                        showNoImages();
-                    }
-                };
-
-                // Actually trigger the load
+                
+                // Create and test each image
                 const testImg = new Image();
-                testImg.onload = img.onload;
-                testImg.onerror = img.onerror;
+                
+                testImg.onload = (function(path, index) {
+                    return function() {
+                        loadedCount++;
+                        
+                        // Create image item
+                        const item = document.createElement('div');
+                        item.className = 'image-item';
+                        
+                        const img = document.createElement('img');
+                        img.src = path;
+                        img.alt = `${gallery.title} - Image ${index}`;
+                        
+                        item.appendChild(img);
+                        imageGrid.appendChild(item);
+                    };
+                })(imgPath, i);
+
                 testImg.src = imgPath;
             }
 
-            // Fallback if no images load
+            // Show message if no images loaded
             setTimeout(() => {
-                if (imageGrid.children.length === 0) {
-                    showNoImages();
+                if (loadedCount === 0) {
+                    imageGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #999;">No images found in this gallery.</p>';
                 }
             }, 2000);
         }
 
-        function showNoImages() {
-            const imageGrid = document.getElementById('image-grid');
-            imageGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #999;">Images for this gallery are being prepared. Please check back soon.</p>';
-        }
-
-        // Load gallery on page load
+        // Load gallery when page loads
         document.addEventListener('DOMContentLoaded', loadGallery);
     </script>
 </body>
