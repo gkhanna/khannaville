@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - KhannaVille</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>KhannaVille</h1>
+                <p class="tagline">A Nostalgic Journey</p>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#galleries" class="nav-link">Galleries</a>
+                <a href="index.html#videos" class="nav-link">Videos</a>
+                <a href="index.html#about" class="nav-link">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="gallery-page-header">
+            <div class="container">
+                <div class="gallery-breadcrumb">
+                    <a href="index.html" class="breadcrumb-link">Home</a> / 
+                    <a href="index.html#galleries" class="breadcrumb-link">Galleries</a> / 
+                    <span id="gallery-title-breadcrumb">Gallery</span>
+                </div>
+                <h1 id="gallery-title">Loading Gallery...</h1>
+            </div>
+        </section>
+
+        <section class="galleries">
+            <div class="container">
+                <div class="image-grid" id="image-grid">
+                    <!-- Images will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2005–2026 Gaurav Khanna. Originally hosted on a Power Macintosh G4, Dartmouth, MA.</p>
+                <p class="footer-note">KhannaVille has been redesigned and archived for preservation. All original content preserved.</p>
+            </div>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Gallery data structure mapping collection IDs to their paths
+        const galleryData = {
+            'Beach': {
+                title: 'Beach',
+                description: 'Coastal adventures and sandy shores',
+                path: 'Beach-Thumbnails',
+                count: 0 // Will be determined dynamically
+            },
+            'Fall': {
+                title: 'Fall Leaves',
+                description: 'Autumn colors across New England',
+                path: 'Fall-Thumbnails',
+                count: 0
+            },
+            'CA': {
+                title: 'California',
+                description: 'West Coast wanderings',
+                path: 'CA-Thumbnails',
+                count: 0
+            },
+            'CapeCod': {
+                title: 'Cape Cod',
+                description: 'New England coastal charm',
+                path: 'CapeCod-Thumbnails',
+                count: 0
+            },
+            'MtWash': {
+                title: 'Mount Washington',
+                description: 'Mountain peaks and hiking trails',
+                path: 'MtWash-Thumbnails',
+                count: 0
+            },
+            'Maine': {
+                title: 'Maine',
+                description: 'Forests and wilderness',
+                path: 'Maine/Thumbnails',
+                count: 0
+            },
+            'Germany': {
+                title: 'Germany',
+                description: 'European castles and countryside',
+                path: 'Germany-Thumbnails',
+                count: 0
+            },
+            'Gnome': {
+                title: 'Gnome Garden',
+                description: 'Quirky garden adventures',
+                path: 'Gnome-Thumbnails',
+                count: 0
+            },
+            'MoS': {
+                title: 'Museum of Science',
+                description: 'Boston science museum visit',
+                path: 'MoS-Thumbnails',
+                count: 0
+            },
+            'Nostalgia': {
+                title: 'Nostalgia',
+                description: 'Throwback memories',
+                path: 'Nostalgia-Thumbnails',
+                count: 0
+            },
+            'Rach6th': {
+                title: "Rachel's 6th Birthday",
+                description: 'Birthday celebration',
+                path: 'Rach6th-Thumbnails',
+                count: 0
+            },
+            'VacNY': {
+                title: 'New York Vacation',
+                description: 'Big Apple adventures',
+                path: 'VacNY/Thumbnails',
+                count: 0
+            },
+            'Winter08': {
+                title: 'Winter Wonderland',
+                description: 'Snowy adventures and holiday fun',
+                path: 'Winter08/Thumbnails',
+                count: 0
+            },
+            'Fall06': {
+                title: 'Fall 2006',
+                description: 'Autumn 2006 highlights',
+                path: 'Fall06-Thumbnails',
+                count: 0
+            },
+            'Bug': {
+                title: 'Bug Collection',
+                description: 'Creepy crawlies and insects',
+                path: 'Bug/Thumbnails',
+                count: 0
+            },
+            'Fall07': {
+                title: 'Fall 2007',
+                description: 'Autumn 2007 highlights',
+                path: 'Fall07/Thumbnails',
+                count: 0
+            },
+            'Fall08': {
+                title: 'Fall 2008',
+                description: 'Autumn 2008 highlights',
+                path: 'Fall08/Thumbnails',
+                count: 0
+            }
+        };
+
+        // Get gallery ID from URL
+        function getGalleryId() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id') || 'Beach';
+        }
+
+        // Load gallery images
+        async function loadGallery() {
+            const galleryId = getGalleryId();
+            const gallery = galleryData[galleryId];
+
+            if (!gallery) {
+                document.getElementById('gallery-title').textContent = 'Gallery not found';
+                return;
+            }
+
+            // Update page title and headers
+            document.title = gallery.title + ' - KhannaVille';
+            document.getElementById('gallery-title').textContent = gallery.title;
+            document.getElementById('gallery-title-breadcrumb').textContent = gallery.title;
+
+            // Load images dynamically
+            const imageGrid = document.getElementById('image-grid');
+            imageGrid.innerHTML = '';
+
+            // Try to load numbered images (0.jpg, 1.jpg, etc.)
+            // We'll try up to 100 images per gallery
+            let loadedCount = 0;
+            for (let i = 0; i < 100; i++) {
+                const imgPath = `media/galleries/${gallery.path}/${i}.jpg`;
+                const img = new Image();
+
+                img.onload = function() {
+                    const item = document.createElement('div');
+                    item.className = 'image-item';
+                    const imgEl = document.createElement('img');
+                    imgEl.src = imgPath;
+                    imgEl.alt = `${gallery.title} - Image ${i}`;
+                    item.appendChild(imgEl);
+                    imageGrid.appendChild(item);
+                    
+                    // Re-initialize lightbox with new images
+                    document.dispatchEvent(new Event('DOMContentLoaded'));
+                };
+
+                img.onerror = function() {
+                    // Stop trying after a few misses
+                    if (loadedCount === 0 && i > 50) {
+                        showNoImages();
+                    }
+                };
+
+                // Actually trigger the load
+                const testImg = new Image();
+                testImg.onload = img.onload;
+                testImg.onerror = img.onerror;
+                testImg.src = imgPath;
+            }
+
+            // Fallback if no images load
+            setTimeout(() => {
+                if (imageGrid.children.length === 0) {
+                    showNoImages();
+                }
+            }, 2000);
+        }
+
+        function showNoImages() {
+            const imageGrid = document.getElementById('image-grid');
+            imageGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #999;">Images for this gallery are being prepared. Please check back soon.</p>';
+        }
+
+        // Load gallery on page load
+        document.addEventListener('DOMContentLoaded', loadGallery);
+    </script>
+</body>
+</html>
