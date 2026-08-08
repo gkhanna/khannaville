@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery - KhannaVille</title>
+    <title>Gallery — KhannaVille</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
     <header class="header">
         <div class="container">
             <div class="logo">
-                <h1>KhannaVille</h1>
-                <p class="tagline">A Nostalgic Journey</p>
+                <h1>Khanna<span class="accent">Ville</span></h1>
+                <p class="tagline">Est. 2002 &nbsp;·&nbsp; Dartmouth, MA</p>
             </div>
             <nav class="nav">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="index.html#galleries" class="nav-link">Galleries</a>
-                <a href="index.html#videos" class="nav-link">Videos</a>
-                <a href="index.html#about" class="nav-link">About</a>
+                <a href="index.html"          class="nav-link">Home</a>
+                <a href="index.html#galleries" class="nav-link active">Galleries</a>
+                <a href="index.html#videos"    class="nav-link">Videos</a>
+                <a href="index.html#about"     class="nav-link">About</a>
             </nav>
         </div>
     </header>
@@ -27,112 +31,110 @@
         <section class="gallery-page-header">
             <div class="container">
                 <div class="gallery-breadcrumb">
-                    <a href="index.html" class="breadcrumb-link">Home</a> / 
-                    <a href="index.html#galleries" class="breadcrumb-link">Galleries</a> / 
-                    <span id="gallery-title-breadcrumb">Gallery</span>
+                    <a href="index.html" class="breadcrumb-link">Home</a> /
+                    <a href="index.html#galleries" class="breadcrumb-link">Galleries</a> /
+                    <span id="gallery-title-breadcrumb">…</span>
                 </div>
-                <h1 id="gallery-title">Loading Gallery...</h1>
+                <h1 id="gallery-title">Loading…</h1>
             </div>
         </section>
 
         <section class="galleries">
             <div class="container">
-                <div class="image-grid" id="image-grid">
-                    <!-- Images will be loaded here -->
-                </div>
+                <div class="image-grid" id="image-grid"></div>
             </div>
         </section>
-
-        <footer class="footer">
-            <div class="container">
-                <p>&copy; 2005–2026 Gaurav Khanna. Originally hosted on a Power Macintosh G4, Dartmouth, MA.</p>
-                <p class="footer-note">KhannaVille has been redesigned and archived for preservation. All original content preserved.</p>
-            </div>
-        </footer>
     </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2002–2026 Gaurav Khanna &nbsp;·&nbsp; Originally served from a Power Macintosh G4, Dartmouth, MA</p>
+            <p class="footer-note">All original content preserved. Redesigned 2026.</p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
     <script>
-        // Gallery configuration with correct paths
-        const galleryConfig = {
-            'Beach': { title: 'Beach', path: 'Beach-Thumbnails' },
-            'Fall': { title: 'Fall Leaves', path: 'Fall-Thumbnails' },
-            'CA': { title: 'California', path: 'CA-Thumbnails' },
-            'CapeCod': { title: 'Cape Cod', path: 'CapeCod-Thumbnails' },
-            'MtWash': { title: 'Mount Washington', path: 'MtWash-Thumbnails' },
-            'Maine': { title: 'Maine', path: 'Maine-Thumbnails' },
-            'Germany': { title: 'Germany', path: 'Germany-Thumbnails' },
-            'Gnome': { title: 'Gnome Garden', path: 'Gnome-Thumbnails' },
-            'MoS': { title: 'Museum of Science', path: 'MoS-Thumbnails' },
-            'Nostalgia': { title: 'Nostalgia', path: 'Nostalgia-Thumbnails' },
-            'Rach6th': { title: "Rachel's 6th Birthday", path: 'Rach6th-Thumbnails' },
-            'VacNY': { title: 'New York Vacation', path: 'VacNY-Thumbnails' },
-            'Winter08': { title: 'Winter Wonderland', path: 'Winter08-Thumbnails' },
-            'Fall06': { title: 'Fall 2006', path: 'Fall06-Thumbnails' },
-            'Bug': { title: 'Bug Collection', path: 'Bug-Thumbnails' }
+        // Gallery configuration — thumb folder + full-res folder
+        const galleries = {
+            'Beach':    { title: 'Beach',                thumbDir: 'Beach-Thumbnails',    fullDir: 'Beach-Images' },
+            'Fall':     { title: 'Fall Leaves',          thumbDir: 'Fall-Thumbnails',     fullDir: 'Fall-Images' },
+            'CA':       { title: 'California',           thumbDir: 'CA-Thumbnails',       fullDir: 'CA-Images' },
+            'CapeCod':  { title: 'Cape Cod',             thumbDir: 'CapeCod-Thumbnails',  fullDir: 'CapeCod-Images' },
+            'MtWash':   { title: 'Mount Washington',     thumbDir: 'MtWash-Thumbnails',   fullDir: 'MtWash-Images' },
+            'Maine':    { title: 'Maine',                thumbDir: 'Maine-Thumbnails',    fullDir: 'Maine-Images' },
+            'Germany':  { title: 'Germany',              thumbDir: 'Germany-Thumbnails',  fullDir: 'Germany-Images' },
+            'Gnome':    { title: 'Gnome Garden',         thumbDir: 'Gnome-Thumbnails',    fullDir: 'Gnome-Images' },
+            'MoS':      { title: 'Museum of Science',    thumbDir: 'MoS-Thumbnails',      fullDir: 'MoS-Images' },
+            'Nostalgia':{ title: 'Nostalgia',            thumbDir: 'Nostalgia-Thumbnails',fullDir: 'Nostalgia-Images' },
+            'Rach6th':  { title: "Rachel's 6th Birthday",thumbDir: 'Rach6th-Thumbnails',  fullDir: 'Rach6th-Images' },
+            'VacNY':    { title: 'New York Vacation',    thumbDir: 'VacNY-Thumbnails',    fullDir: 'VacNY-Images' },
+            'Winter08': { title: 'Winter 2008',          thumbDir: 'Winter08-Thumbnails', fullDir: 'Winter08-Images' },
+            'Fall06':   { title: 'Fall 2006',            thumbDir: 'Fall06-Thumbnails',   fullDir: 'Fall06-Images' },
+            'Bug':      { title: 'Bug Collection',       thumbDir: 'Bug-Thumbnails',      fullDir: 'Bug-Images' },
+            'Fall07':   { title: 'Fall 2007',            thumbDir: 'Fall07-Thumbnails',   fullDir: 'Fall07-Images' },
+            'Fall08':   { title: 'Fall 2008',            thumbDir: 'Fall08-Thumbnails',   fullDir: 'Fall08-Images' }
         };
 
         function getGalleryId() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('id') || 'Beach';
+            return new URLSearchParams(window.location.search).get('id') || 'Beach';
         }
 
         function loadGallery() {
-            const galleryId = getGalleryId();
-            const gallery = galleryConfig[galleryId];
-
+            const id      = getGalleryId();
+            const gallery = galleries[id];
             if (!gallery) {
                 document.getElementById('gallery-title').textContent = 'Gallery not found';
                 return;
             }
 
-            // Update titles
-            document.title = gallery.title + ' - KhannaVille';
+            document.title = gallery.title + ' — KhannaVille';
             document.getElementById('gallery-title').textContent = gallery.title;
             document.getElementById('gallery-title-breadcrumb').textContent = gallery.title;
 
-            // Load images
-            const imageGrid = document.getElementById('image-grid');
-            imageGrid.innerHTML = '';
+            const grid      = document.getElementById('image-grid');
+            const base      = 'media/galleries/';
+            const thumbBase = base + gallery.thumbDir + '/';
+            const fullBase  = base + gallery.fullDir  + '/';
 
-            let loadedCount = 0;
+            let loaded = 0;
 
-            // Try loading images 0-200
             for (let i = 0; i < 200; i++) {
-                const imgPath = `media/galleries/${gallery.path}/${i}.jpg`;
-                
-                // Create and test each image
-                const testImg = new Image();
-                
-                testImg.onload = (function(path, index) {
+                const thumbSrc = thumbBase + i + '.jpg';
+                const fullSrc  = fullBase  + i + '.jpg';
+
+                // Use a hidden probe image to test whether this thumb exists
+                const probe = new Image();
+                probe.onload = (function(thumb, full, index) {
                     return function() {
-                        loadedCount++;
-                        
-                        // Create image item
+                        loaded++;
+
                         const item = document.createElement('div');
                         item.className = 'image-item';
-                        
-                        const img = document.createElement('img');
-                        img.src = path;
-                        img.alt = `${gallery.title} - Image ${index}`;
-                        
-                        item.appendChild(img);
-                        imageGrid.appendChild(item);
-                    };
-                })(imgPath, i);
+                        // data-full points to the full-res image for the lightbox
+                        item.dataset.full = full;
 
-                testImg.src = imgPath;
+                        const img = document.createElement('img');
+                        img.src = thumb;
+                        img.alt = gallery.title + ' — photo ' + index;
+                        img.loading = 'lazy';
+
+                        item.appendChild(img);
+                        grid.appendChild(item);
+                    };
+                })(thumbSrc, fullSrc, i);
+
+                probe.src = thumbSrc;
             }
 
-            // Show message if no images loaded
+            // Show fallback message if nothing loaded
             setTimeout(() => {
-                if (loadedCount === 0) {
-                    imageGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #999;">No images found in this gallery.</p>';
+                if (loaded === 0) {
+                    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:3rem;color:#999">No images found.</p>';
                 }
-            }, 2000);
+            }, 3000);
         }
 
-        // Load gallery when page loads
         document.addEventListener('DOMContentLoaded', loadGallery);
     </script>
 </body>

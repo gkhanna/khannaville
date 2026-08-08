@@ -79,9 +79,12 @@ window.addEventListener('scroll', () => {
         if (!item) return;
 
         // Rebuild image list from current DOM state
+        // Use data-full (full-res path) if present, otherwise fall back to thumb src
         const grid = item.closest('.image-grid');
         if (!grid) return;
-        images = Array.from(grid.querySelectorAll('.image-item img')).map(i => i.src);
+        images = Array.from(grid.querySelectorAll('.image-item')).map(el =>
+            el.dataset.full || el.querySelector('img').src
+        );
         const clicked = Array.from(grid.querySelectorAll('.image-item')).indexOf(item);
 
         createModal();
