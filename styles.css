@@ -200,6 +200,7 @@ section h2 {
 
 /* ── Gallery hub ─────────────────────────── */
 .galleries { background: var(--bg); }
+.ai-enhanced { background: var(--white); }
 
 .gallery-grid {
     display: grid;
@@ -219,6 +220,9 @@ section h2 {
 .gallery-card:hover {
     box-shadow: var(--shadow-lg);
     transform: translateY(-6px);
+}
+.enhanced-card {
+    border-top: 3px solid var(--accent2);
 }
 .gallery-thumb {
     width: 100%;

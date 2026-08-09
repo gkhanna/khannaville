@@ -21,6 +21,7 @@
             <nav class="nav">
                 <a href="index.html"          class="nav-link">Home</a>
                 <a href="index.html#galleries" class="nav-link active">Galleries</a>
+                <a href="index.html#ai-enhanced" class="nav-link">AI Enhanced</a>
                 <a href="index.html#videos"    class="nav-link">Videos</a>
                 <a href="index.html#about"     class="nav-link">About</a>
             </nav>
@@ -55,26 +56,56 @@
 
     <script src="script.js"></script>
     <script>
-        // Gallery configuration — thumb folder + full-res folder
-        const galleries = {
-            'Beach':    { title: 'Beach',                thumbDir: 'Beach-Thumbnails',    fullDir: 'Beach-Images' },
-            'Fall':     { title: 'Fall Leaves',          thumbDir: 'Fall-Thumbnails',     fullDir: 'Fall-Images' },
-            'CA':       { title: 'California',           thumbDir: 'CA-Thumbnails',       fullDir: 'CA-Images' },
-            'CapeCod':  { title: 'Cape Cod',             thumbDir: 'CapeCod-Thumbnails',  fullDir: 'CapeCod-Images' },
-            'MtWash':   { title: 'Mount Washington',     thumbDir: 'MtWash-Thumbnails',   fullDir: 'MtWash-Images' },
-            'Maine':    { title: 'Maine',                thumbDir: 'Maine-Thumbnails',    fullDir: 'Maine-Images' },
-            'Germany':  { title: 'Germany',              thumbDir: 'Germany-Thumbnails',  fullDir: 'Germany-Images' },
-            'Gnome':    { title: 'Gnome Garden',         thumbDir: 'Gnome-Thumbnails',    fullDir: 'Gnome-Images' },
-            'MoS':      { title: 'Museum of Science',    thumbDir: 'MoS-Thumbnails',      fullDir: 'MoS-Images' },
-            'Nostalgia':{ title: 'Nostalgia',            thumbDir: 'Nostalgia-Thumbnails',fullDir: 'Nostalgia-Images' },
-            'Rach6th':  { title: "Rachel's 6th Birthday",thumbDir: 'Rach6th-Thumbnails',  fullDir: 'Rach6th-Images' },
-            'VacNY':    { title: 'New York Vacation',    thumbDir: 'VacNY-Thumbnails',    fullDir: 'VacNY-Images' },
-            'Winter08': { title: 'Winter 2008',          thumbDir: 'Winter08-Thumbnails', fullDir: 'Winter08-Images' },
-            'Fall06':   { title: 'Fall 2006',            thumbDir: 'Fall06-Thumbnails',   fullDir: 'Fall06-Images' },
-            'Bug':      { title: 'Bug Collection',       thumbDir: 'Bug-Thumbnails',      fullDir: 'Bug-Images' },
-            'Fall07':   { title: 'Fall 2007',            thumbDir: 'Fall07-Thumbnails',   fullDir: 'Fall07-Images' },
-            'Fall08':   { title: 'Fall 2008',            thumbDir: 'Fall08-Thumbnails',   fullDir: 'Fall08-Images' }
+        const baseGalleries = {
+            'Beach':     { title: 'Beach',                 thumbDir: 'Beach-Thumbnails',     fullDir: 'Beach-Images',     start: 0, count: 24 },
+            'Fall':      { title: 'Fall Leaves',           thumbDir: 'Fall-Thumbnails',      fullDir: 'Fall-Images',      start: 0, count: 9 },
+            'CA':        { title: 'California',            thumbDir: 'CA-Thumbnails',        fullDir: 'CA-Images',        start: 0, count: 98 },
+            'CapeCod':   { title: 'Cape Cod',              thumbDir: 'CapeCod-Thumbnails',   fullDir: 'CapeCod-Images',   start: 0, count: 24 },
+            'MtWash':    { title: 'Mount Washington',      thumbDir: 'MtWash-Thumbnails',    fullDir: 'MtWash-Images',    start: 0, count: 36 },
+            'Maine':     { title: 'Maine',                 thumbDir: 'Maine-Thumbnails',     fullDir: 'Maine-Images',     start: 1, count: 18 },
+            'Germany':   { title: 'Germany',               thumbDir: 'Germany-Thumbnails',   fullDir: 'Germany-Images',   start: 0, count: 108 },
+            'Gnome':     { title: 'Gnome Garden',          thumbDir: 'Gnome-Thumbnails',     fullDir: 'Gnome-Images',     start: 0, count: 65 },
+            'MoS':       { title: 'Museum of Science',     thumbDir: 'MoS-Thumbnails',       fullDir: 'MoS-Images',       start: 0, count: 39 },
+            'Nostalgia': { title: 'Nostalgia',             thumbDir: 'Nostalgia-Thumbnails', fullDir: 'Nostalgia-Images', start: 0, count: 19 },
+            'Rach6th':   { title: "Rachel's 6th Birthday", thumbDir: 'Rach6th-Thumbnails',   fullDir: 'Rach6th-Images',   start: 0, count: 21 },
+            'VacNY':     { title: 'New York Vacation',     thumbDir: 'VacNY-Thumbnails',     fullDir: 'VacNY-Images',     start: 1, count: 32 },
+            'Winter08':  { title: 'Winter 2008',           thumbDir: 'Winter08-Thumbnails',  fullDir: 'Winter08-Images',  start: 1, count: 12 },
+            'Fall06':    { title: 'Fall 2006',             thumbDir: 'Fall06-Thumbnails',    fullDir: 'Fall06-Images',    start: 0, count: 15 },
+            'Bug':       { title: 'Bug Collection',        thumbDir: 'Bug-Thumbnails',       fullDir: 'Bug-Images',       start: 1, count: 6 },
+            'Fall07':    { title: 'Fall 2007',             thumbDir: 'Fall07-Thumbnails',    fullDir: 'Fall07-Images',    start: 1, count: 14 },
+            'Fall08':    { title: 'Fall 2008',             thumbDir: 'Fall08-Thumbnails',    fullDir: 'Fall08-Images',    start: 1, count: 12 }
         };
+
+        const enhancedMeta = {
+            'Beach':     { face: [0, 1, 3, 5, 6, 10, 11, 13, 15, 17, 18, 21, 22, 23] },
+            'Fall':      { face: [0, 1, 2, 3, 4, 5, 6, 7] },
+            'CA':        { face: [0, 1, 6, 8, 12, 19, 22, 23, 24, 32, 33, 36, 39, 46, 47, 51, 54, 55, 60, 65, 66, 67, 71, 75, 80, 81, 82, 84, 87, 91, 93, 94, 95, 96] },
+            'CapeCod':   { face: [2, 8, 23] },
+            'MtWash':    { face: [5, 6, 26] },
+            'Maine':     { face: [2, 3, 5, 8, 10, 16, 17, 18] },
+            'Germany':   { face: [6, 30, 43, 53, 57, 58, 81, 82, 84, 87, 96, 105] },
+            'Gnome':     { face: [0, 3, 8, 9, 10, 11, 12, 14, 16, 22, 25, 27, 32, 34, 35, 38, 43, 50, 53, 54, 55, 58, 59, 60] },
+            'MoS':       { face: [0, 11, 32, 36] },
+            'Nostalgia': { face: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18] },
+            'Rach6th':   { face: [0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19] },
+            'VacNY':     { face: [4, 5, 7, 8, 9, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31], typo: [8] },
+            'Winter08':  { face: [4, 5, 10, 11], typo: [8] },
+            'Fall06':    { face: [0] },
+            'Bug':       { face: [3, 4, 5, 6] },
+            'Fall07':    { face: [] },
+            'Fall08':    { face: [4, 5, 7, 8] }
+        };
+
+        const galleries = { ...baseGalleries };
+        Object.entries(baseGalleries).forEach(([id, gallery]) => {
+            galleries['AI-' + id] = {
+                ...gallery,
+                title: gallery.title + ' — AI Enhanced',
+                enhanced: true,
+                face: new Set(enhancedMeta[id].face || []),
+                typo: new Set(enhancedMeta[id].typo || [])
+            };
+        });
 
         function getGalleryId() {
             return new URLSearchParams(window.location.search).get('id') || 'Beach';
@@ -92,47 +123,36 @@
             document.getElementById('gallery-title').textContent = gallery.title;
             document.getElementById('gallery-title-breadcrumb').textContent = gallery.title;
 
-            const grid      = document.getElementById('image-grid');
-            const base      = 'media/galleries/';
-            const thumbBase = base + gallery.thumbDir + '/';
-            const fullBase  = base + gallery.fullDir  + '/';
+            const grid = document.getElementById('image-grid');
+            const base = 'media/galleries/';
 
-            let loaded = 0;
+            for (let offset = 0; offset < gallery.count; offset++) {
+                const index = gallery.start + offset;
+                const src = base + gallery.thumbDir + '/' + index + '.jpg';
+                const fullSrc = gallery.enhanced
+                    ? enhancedSrc(gallery, index, base)
+                    : base + gallery.fullDir + '/' + index + '.jpg';
 
-            for (let i = 0; i < 200; i++) {
-                const thumbSrc = thumbBase + i + '.jpg';
-                const fullSrc  = fullBase  + i + '.jpg';
+                const item = document.createElement('div');
+                item.className = 'image-item';
+                item.dataset.full = fullSrc;
 
-                // Use a hidden probe image to test whether this thumb exists
-                const probe = new Image();
-                probe.onload = (function(thumb, full, index) {
-                    return function() {
-                        loaded++;
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = gallery.title + ' — photo ' + index;
+                img.loading = 'lazy';
 
-                        const item = document.createElement('div');
-                        item.className = 'image-item';
-                        // data-full points to the full-res image for the lightbox
-                        item.dataset.full = full;
-
-                        const img = document.createElement('img');
-                        img.src = thumb;
-                        img.alt = gallery.title + ' — photo ' + index;
-                        img.loading = 'lazy';
-
-                        item.appendChild(img);
-                        grid.appendChild(item);
-                    };
-                })(thumbSrc, fullSrc, i);
-
-                probe.src = thumbSrc;
+                item.appendChild(img);
+                grid.appendChild(item);
             }
+        }
 
-            // Show fallback message if nothing loaded
-            setTimeout(() => {
-                if (loaded === 0) {
-                    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:3rem;color:#999">No images found.</p>';
-                }
-            }, 3000);
+        function enhancedSrc(gallery, index, base) {
+            const topazBase = gallery.typo.has(index)
+                ? '-topaz--upscale-4x'
+                : '-topaz-upscale-4x';
+            const suffix = topazBase + (gallery.face.has(index) ? '-face' : '');
+            return base + gallery.fullDir + '/' + index + suffix + '.jpg';
         }
 
         document.addEventListener('DOMContentLoaded', loadGallery);
