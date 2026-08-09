@@ -73,7 +73,11 @@
             'Fall06':    { title: 'Fall 2006',             thumbDir: 'Fall06-Thumbnails',    fullDir: 'Fall06-Images',    start: 0, count: 15 },
             'Bug':       { title: 'Bug Collection',        thumbDir: 'Bug-Thumbnails',       fullDir: 'Bug-Images',       start: 1, count: 6 },
             'Fall07':    { title: 'Fall 2007',             thumbDir: 'Fall07-Thumbnails',    fullDir: 'Fall07-Images',    start: 1, count: 14 },
-            'Fall08':    { title: 'Fall 2008',             thumbDir: 'Fall08-Thumbnails',    fullDir: 'Fall08-Images',    start: 1, count: 12 }
+            'Fall08':    { title: 'Fall 2008',             thumbDir: 'Fall08-Thumbnails',    fullDir: 'Fall08-Images',    start: 1, count: 12 },
+            'KhannaVille-RI': {
+                title: 'KhannaVille-RI',
+                redirect: 'https://share.icloud.com/photos/055llrhuWvXHVWz8r6WaW_07g'
+            }
         };
 
         const enhancedMeta = {
@@ -98,6 +102,7 @@
 
         const galleries = { ...baseGalleries };
         Object.entries(baseGalleries).forEach(([id, gallery]) => {
+            if (gallery.redirect) return;
             galleries['AI-' + id] = {
                 ...gallery,
                 title: gallery.title + ' — AI Enhanced',
@@ -116,6 +121,10 @@
             const gallery = galleries[id];
             if (!gallery) {
                 document.getElementById('gallery-title').textContent = 'Gallery not found';
+                return;
+            }
+            if (gallery.redirect) {
+                window.location.replace(gallery.redirect);
                 return;
             }
 
